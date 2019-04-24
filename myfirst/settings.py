@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'myfirst.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-connect('pollsDB')
+connect(host='mongodb://mongo/pollsDB')
 
 # DATABASES = {
 #     'default': {
