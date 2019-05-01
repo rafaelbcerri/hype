@@ -20,8 +20,5 @@ from graphene_django.views import GraphQLView
 from hype.schema import schema
 
 urlpatterns = [
-
-    path('polls/', include('polls.urls')),
-    path('admin/', admin.site.urls),
-    path('graphql/', GraphQLView.as_view(graphiql=True, schema=schema)),
+  path('graphql/', GraphQLView.as_view(graphiql=True, schema=schema)),
 ]

@@ -1,15 +1,14 @@
 import graphene
 
-import polls.schema
+import api.schemas.thing
 
-
-class Query(polls.schema.Query, graphene.ObjectType):
+class Query(api.schemas.thing.Query, graphene.ObjectType):
     # This class will inherit from multiple Queries
     # as we begin to add more apps to our project
     pass
 
 
-class Mutation(polls.schema.MyMutations, graphene.ObjectType):
+class Mutation(api.schemas.thing.Mutation, graphene.ObjectType):
     # This class will inherit from multiple Queries
     # as we begin to add more apps to our project
     pass
