@@ -1,4 +1,4 @@
-"""myfirst URL Configuration
+"""hype URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.2/topics/http/urls/
@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import include, path
 
 from graphene_django.views import GraphQLView
-from myfirst.schema import schema
+from hype.schema import schema
 
 urlpatterns = [
 
