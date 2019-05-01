@@ -13,5 +13,4 @@ pip-delete-this-directory.txt
 .vscode
 
 #Database
-
 data/
