@@ -10,14 +10,15 @@ class ThingType(MongoengineObjectType):
 
 class CreateThing(graphene.Mutation):
   class Arguments:
-    text = graphene.String()
+    text = graphene.String(required=True)
     sub_things = graphene.List(graphene.String)
 
   thing = graphene.Field(lambda: ThingType)
   ok = graphene.Boolean()
 
   @staticmethod
-  def mutate(self, info, text, sub_things):
+  def mutate(self, info, text, **args):
+    sub_things = args.get('sub_things')
     thing = ThingModel(text=text, sub_things=sub_things)
     thing.save()
 
@@ -26,7 +27,7 @@ class CreateThing(graphene.Mutation):
 
 class UpdateThing(graphene.Mutation):
   class Arguments:
-    id = graphene.String()
+    id = graphene.String(required=True)
     text = graphene.String()
     sub_things = graphene.List(graphene.String)
 
@@ -34,11 +35,16 @@ class UpdateThing(graphene.Mutation):
   ok = graphene.Boolean()
 
   @staticmethod
-  def mutate(self, info, id, text, sub_things):
+  def mutate(self, info, id, **args):
     thing = ThingModel.objects.get(id=id)
+
+    text = args.get('text')
+    sub_things = args.get('sub_things')
+
     if text: thing.text = text
     if sub_things: thing.sub_things = sub_things
-    thing.save()
+
+    if text or sub_things: thing.save()
 
     return UpdateThing(thing=thing, ok=True)
 
