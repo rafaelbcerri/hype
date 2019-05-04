@@ -3,6 +3,7 @@ import graphene
 from graphene_mongo import MongoengineObjectType
 from api.models.thing import Thing as ThingModel
 
+
 class ThingType(MongoengineObjectType):
   class Meta:
     model = ThingModel
@@ -49,6 +50,20 @@ class UpdateThing(graphene.Mutation):
     return UpdateThing(thing=thing, ok=True)
 
 
+class DeleteThing(graphene.Mutation):
+  class Arguments:
+    id = graphene.String(required=True)
+
+  ok = graphene.Boolean()
+
+  @staticmethod
+  def mutate(self, info, id):
+    thing = ThingModel.objects.get(id=id)
+    thing.delete()
+
+    return DeleteThing(ok=True)
+
+
 class Query(graphene.ObjectType):
   things = graphene.List(ThingType)
 
@@ -59,5 +74,6 @@ class Query(graphene.ObjectType):
 class Mutation(graphene.ObjectType):
   create_thing = CreateThing.Field()
   update_thing = UpdateThing.Field()
+  delete_thing = DeleteThing.Field()
 
 schema = graphene.Schema(query=Query, mutation=Mutation)
