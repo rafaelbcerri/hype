@@ -24,6 +24,25 @@ class CreateThing(graphene.Mutation):
     return CreateThing(thing=thing, ok=True)
 
 
+class UpdateThing(graphene.Mutation):
+  class Arguments:
+    id = graphene.String()
+    text = graphene.String()
+    sub_things = graphene.List(graphene.String)
+
+  thing = graphene.Field(lambda: ThingType)
+  ok = graphene.Boolean()
+
+  @staticmethod
+  def mutate(self, info, id, text, sub_things):
+    thing = ThingModel.objects.get(id=id)
+    if text: thing.text = text
+    if sub_things: thing.sub_things = sub_things
+    thing.save()
+
+    return UpdateThing(thing=thing, ok=True)
+
+
 class Query(graphene.ObjectType):
   things = graphene.List(ThingType)
 
@@ -33,5 +52,6 @@ class Query(graphene.ObjectType):
 
 class Mutation(graphene.ObjectType):
   create_thing = CreateThing.Field()
+  update_thing = UpdateThing.Field()
 
 schema = graphene.Schema(query=Query, mutation=Mutation)
